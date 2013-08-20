@@ -18,6 +18,19 @@ app.get('/', function(request, response) {
   response.send(data);
 });
 
+// Sotiris attempts to hack db insertion
+app.get('/pay', function(request, response) {
+  var attempt_order_instance = global.db.Order.build({                                                                                              
+                   coinbase_id: String(Date.now()),                                                                                              
+                   amount: 0,                                                                                                                                       
+                   time: Date()
+		    });
+  attempt_order_instance.save();
+  console.log("Something must have happened...");
+  var data = fs.readFileSync('index.html').toString();
+  response.send(data);
+});
+
 // Render example.com/orders
 app.get('/orders', function(request, response) {
   global.db.Order.findAll().success(function(orders) {
